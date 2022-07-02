@@ -176,8 +176,6 @@
 			App\Providers\RouteServiceProvider::class,
 			
 			CloudinaryLabs\CloudinaryLaravel\CloudinaryServiceProvider::class,
-		
-		
 		],
 		
 		/*
@@ -234,8 +232,6 @@
 			'View'         => Illuminate\Support\Facades\View::class,
 			
 			'Cloudinary' => CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary::class,
-		
-		
 		],
 	
 	];
