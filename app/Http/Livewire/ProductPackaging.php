@@ -62,10 +62,6 @@
 			$this->qrCodeId = cloudinary()->upload($qrCodePath, [
 				'folder'         => 'product-qrcodes',
 				'public_id'      => Str::uuid()->toString(),
-				'transformation' => [
-					'width'  => '512',
-					'height' => '512'
-				]
 			])->getPublicId();
 			
 			//create packaging with cloudinary and get URL
