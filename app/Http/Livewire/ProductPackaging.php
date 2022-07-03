@@ -11,7 +11,6 @@
 	class ProductPackaging extends Component {
 		use WithFileUploads;
 		
-		public $media;
 		public $package;
 		public $name;
 		public $price;
@@ -55,34 +54,36 @@
 			]);
 			
 			//create qr code
-			$qrCodeData = $data['desc'];
+			$qrCodeData = $this->desc;
 			$qrCodePath = '../storage/product_qr_code.svg';
-			QrCode::format('svg')->size(150)->style('round')->backgroundColor(255, 255, 255, 0)->color(0, 0, 0, 90)->margin(5)->generate($qrCodeData, $qrCodePath);
+			QrCode::format('svg')->size(512)->style('round')->backgroundColor(255, 255, 255, 0)->color(0, 0, 0, 90)->margin(5)->generate($qrCodeData, $qrCodePath);
 			
 			//upload qr code
 			$this->qrCodeId = cloudinary()->upload($qrCodePath, [
 				'folder'         => 'product-qrcodes',
 				'public_id'      => Str::uuid()->toString(),
 				'transformation' => [
-					'width'  => '150',
-					'height' => '150'
+					'width'  => '512',
+					'height' => '512'
 				]
 			])->getPublicId();
 			
 			//create packaging with cloudinary and get URL
-			$this->package = cloudinary()->upload($data['package']->getRealPath(), [
+			$packaged = cloudinary()->upload($this->package->getRealPath(), [
 				'folder'         => 'product-qrcodes',
 				'transformation' => [
 					'overlay' => $this->qrCodeId,
-					'gravity' => $data['location'], // watermark location bottom right
+					'gravity' => $this->location, // watermark location bottom right
 					'x'       => 0.02, // 2 percent offset horizontally
 					'y'       => 0.02, // 2 percent offset vertically
 					'crop'    => 'scale',
-					'opacity' => 70
+					'flags'   => 'relative',
+					'width'   => 0.15,
+					'opacity' => 80
 				],
 			])->getSecurePath();
 			
-			$data['package'] = $this->package;
+			$data['package'] = $packaged;
 			
 			$this->product = Product::create($data);
 			$productName = $this->product->name;
