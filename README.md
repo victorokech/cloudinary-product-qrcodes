@@ -24,7 +24,7 @@ Let's get started.
 
 ## PHPSandbox and Github
 
-The final project can be viewed on [PHPSandbox](https://phpsandbox.io/e/x/xeu5u?layout=EditorPreview&defaultPath=%2F&theme=dark&showExplorer=no) and the entire source code is available on my [Github](https://github.com/victorokech/cloudinary-product-qrcodes) repository.
+The final project can be viewed on [PHPSandbox]( https://phpsandbox.io/e/x/imdid?layout=EditorPreview&defaultPath=%2F&theme=dark&showExplorer=no&openedFiles=) and the entire source code is available on my [Github](https://github.com/victorokech/cloudinary-product-qrcodes) repository.
 
 ## Prerequisites
 
