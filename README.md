@@ -14,17 +14,21 @@ Cloudinary is a Software-as-a-Service (SaaS) solution for managing all your web 
 the cloud. Cloudinary offers an end-to-end solution for all your image and video needs, including the upload, storage,
 administration, transformation and optimized delivery.
 
-Laravel is a PHP framework developed with developer productivity in mind. The framework also aims to evolve with the web and has already incorporated several new features and ideas in the web development world—such as job queues, **API authentication** out of the box, real-time communication, and much more.
+Laravel is a PHP framework developed with developer productivity in mind. The framework also aims to evolve with the web
+and has already incorporated several new features and ideas in the web development world—such as job queues, **API
+authentication** out of the box, real-time communication, and much more.
 
 ## Introduction
 
-Product Packaging is the first thing a customer sees when looking at a product. In this article, we will use Cloudinary to create engaging and compelling product packaging embedded with QR codes that will provide additional product details.
+Product Packaging is the first thing a customer sees when looking at a product. In this article, we will use Cloudinary
+to create engaging and compelling product packaging embedded with QR codes that will provide additional product details.
 
 Let's get started.
 
-## PHPSandbox and Github
+## Github
 
-The final project can be viewed on [PHPSandbox]( https://phpsandbox.io/e/x/imdid?layout=EditorPreview&defaultPath=%2F&theme=dark&showExplorer=no&openedFiles=) and the entire source code is available on my [Github](https://github.com/victorokech/cloudinary-product-qrcodes) repository.
+The entire source code is available on my [Github](https://github.com/victorokech/cloudinary-product-qrcodes)
+repository.
 
 ## Prerequisites
 
@@ -34,39 +38,45 @@ framework.
 
 ## Getting Started
 
-Being that Laravel is a PHP Framework, we will need Composer. Like any modern PHP framework, Laravel uses Composer to manage its dependencies. So, before we can
-start ensure you have Composer installed on your machine. Follow step 1 below to install Composer and PHP.
+Being that Laravel is a PHP Framework, we will need Composer. Like any modern PHP framework, Laravel uses Composer to
+manage its dependencies. So, before we can start ensure you have Composer installed on your machine. Follow step 1 below
+to install Composer and PHP.
 
 1. Install [Composer](https://getcomposer.org/) and [PHP](https://www.php.net/manual/en/install.windows.tools.php) on
    your development or production machine.
-2. Install Laravel
-   
-   1. Via Composer:
-      
-      `composer create-project --prefer-dist laravel/laravel cloudinary-video-slideshow`
-   2. Via Laravel Installer
-      
-      `composer global require laravel/installer`
-      
-      `laravel new cloudinary-video-slideshow`
-3. In step 2 above we have installed the Laravel Installer and used it to scaffold a new application in the folder `cloudinary-video-slideshow`. With Laravel installed, we should be able to start and test the server ensuring everything is okay. Change the directory to the project folder and run the local development server by typing the following commands:
-   
-   `cd cloudinary-video-slideshow`
-   
+2. Install Laravel - we can do this in one of two ways:
+
+	1. Via Composer:
+
+	   `composer create-project --prefer-dist laravel/laravel cloudinary-product-qrcodes`
+	2. Or Via Laravel Installer
+
+	   `composer global require laravel/installer`
+
+	   `laravel new cloudinary-product-qrcodes`
+3. In step 2 above we have set up a new Laravel application in the folder `cloudinary-product-qrcodes`. We can then
+   start and test the server ensuring everything is okay. Change the directory to the project folder and run the local
+   development server by typing the following commands:
+
+   `cd cloudinary-product-qrcodes`
+
    `php artisan serve`
 
-The Laravel project is now up and running. When you open `http://localhost:8000` on your computer, you should see the image below:
+The Laravel project is now up and running. When you open `http://localhost:8000` on your computer, you should see the
+image below:
 
 ![Laravel Server Running](https://res.cloudinary.com/dgrpkngjn/image/upload/v1655887283/watermark-api/assets/laravel-running_zqk8ol.png)
 
 ## Setting up Cloudinary’s Laravel SDK
 
-Cloudinary has a tonne of features from media upload, storage, administration, and manipulation to optimization and delivery. In this article, we will use image transformation to create product labels with embedded QR codes.
+Cloudinary has a tonne of features from media upload, storage, administration, and manipulation to optimization and
+delivery. In this article, we will use image transformation to create product labels with embedded QR codes.
 
-1. Sign up for a free Cloudinary account then navigate to the Console page and take note of your Cloud name, API Key and API Secret.
+1. Sign up for a free Cloudinary account then navigate to the Console page and take note of your Cloud name, API Key and
+   API Secret.
    ![Cloudinary Dashboard](https://res.cloudinary.com/dgrpkngjn/image/upload/v1655976836/assets/cloudinary_dashboard.png)
 2. Install [Cloudinary’s Laravel SDK](https://github.com/cloudinary-labs/cloudinary-laravel#installation):
-   
+
    `composer require cloudinary-labs/cloudinary-laravel`
 
 **Note**: Please ensure you follow all the steps in the #Installation section. Publish the configuration file and add
@@ -83,24 +93,24 @@ CLOUDINARY_CLOUD_NAME=YOUR_CLOUDINARY_CLOUD_NAME
 We will need a UI to collect product details, for this, we will use the Laravel package Livewire to build this.
 
 1. Install Livewire Package by running the following command in your Laravel project:
-   
+
    `composer require livewire/livewire`
 2. Include Livewire scripts and styles on every page that will be using Livewire. In our case `welcome.blade.php`:
 
 ```html
 ...
-    @livewireStyles
+@livewireStyles
 </head>
 <body>
-    ...
-  
-    @livewireScripts
+...
+
+@livewireScripts
 </body>
 </html>
 ```
 
 3. We will then create a Livewire Component to handle our image uploads:
-   
+
    `php artisan make:livewire ProductPackaging`
 
 This will create two files, first `app/Http/Livewire/ProductPackaging.php` and the other one
@@ -117,20 +127,23 @@ or
 3. Open `resources/views/welcome.blade.php` and add the following code within the `<body></body>` tags as shown below:
 
 ```html
+
 <body class="antialiased">
-  <div>
-    @livewire('product-packaging')
-  </div>
+<div>
+	@livewire('product-packaging')
+</div>
 </body>
 ```
 
 This includes the Livewire component we created earlier in our `welcome.blade.php`.
 
-**Note:** Please ensure you go through the [Livewire documentation](https://laravel-livewire.com/docs/2.x/quickstart), to learn how to install and set it up.
+**Note:** Please ensure you go through the [Livewire documentation](https://laravel-livewire.com/docs/2.x/quickstart),
+to learn how to install and set it up.
 
 3. Open the file `resources/views/livewire/product-packaging.blade.php` and populate it with the following code:
 
 ```html
+
 <form class="mb-5" wire:submit.prevent="store">
 	<div class="form-group row mt-3 mb-3">
 		<div class="input-group mb-3">
@@ -216,17 +229,19 @@ You will see the implementation in code shortly.
 
 In practice, QR codes often contain data for a locator, identifier, or tracker that points to a website or application.
 
-We will use the `simplesoftwareio/simple-qrcode` package to create the QR Codes that we will embed on our product labels.
+We will use the `simplesoftwareio/simple-qrcode` package to create the QR Codes that we will embed on our product
+labels.
 
 `composer require simplesoftwareio/simple-qrcode`
 
 ## SQLite Database
 
-Laravel makes interacting with databases extremely simple across a variety of supported databases using raw SQL. We will save our product details in the SQLite database. This is suitable for a small applications.
+Laravel makes interacting with databases extremely simple across a variety of supported databases using raw SQL. We will
+save our product details in the SQLite database. This is suitable for a small applications.
 
 1. Edit your `.env` file and change `DB_CONNECTION` to `sqlite`
 2. Open your `config/database.php` file and change the default to sqlite:
-   
+
    `'default' => env('DB_CONNECTION', 'sqlite'),`
 3. In the connections array, change sqlite's database key-value pair as shown below and leave the rest as is:
 
@@ -243,14 +258,15 @@ Laravel makes interacting with databases extremely simple across a variety of su
 ];
 ```
 
-Run the command `php artisan migrate:status` to test if you are connected, you should see the response `Migration table not found`.
+Run the command `php artisan migrate:status` to test if you are connected, you should see the
+response `Migration table not found`.
 
 4. Next, we need to create the Product model. Run the command
-   
+
    `php artisan make:model Product`
-   
+
    This will create the file `app\Models\Product.php`. Open the file and add the following:
-   
+
    ```php
    protected $fillable = [
    	'name',
@@ -263,9 +279,10 @@ Run the command `php artisan migrate:status` to test if you are connected, you s
 5. Lastly, we will create the `create_products_table` migration:
 
    `php artisan make:migration create_products_table`
-   
-	Open the file created at `database\migrations\<timestamp>_create_products_table.php` and in the `up` method and the following code under `Schema:create`:
-   
+
+   Open the file created at `database\migrations\<timestamp>_create_products_table.php` and in the `up` method and the
+   following code under `Schema:create`:
+
    ```php
    $table->id();
    $table->string('name');
@@ -275,17 +292,18 @@ Run the command `php artisan migrate:status` to test if you are connected, you s
    $table->string('package'); //will store URL of package
    $table->timestamps();
    ```
-   
+
    Once done run the command `php artisan migrate`, this will create the products table with the above columns.
 
 ## Implementing the QR Code
 
-Open the file `app/Http/Livewire/ProductPackaging.php`. Here, we are going to add a method that will handle the video selected by the user, and upload them to Cloudinary for video moderation.
+Open the file `app/Http/Livewire/ProductPackaging.php`. Here, we are going to add a method that will handle the video
+selected by the user, and upload them to Cloudinary for video moderation.
 
 Add the following code to this file.
 
 1. First, we use Livewires `WithFileUploads` to help us with file uploads, then create the variables as shown.
-   
+
    ```php
    use Livewire\WithFileUploads;
    
@@ -300,30 +318,35 @@ Add the following code to this file.
    
    ...
    ```
-2. Secondly, we will create the `store` method which will process the creation of the product label. First by creating the QR code, uploading it to [Cloudinary](https://cloudinary.com), then creating an image overlay.
-   
+2. Secondly, we will create the `store` method which will process the creation of the product label. First by creating
+   the QR code, uploading it to [Cloudinary](https://cloudinary.com), then creating an image overlay.
+
    ```php
    public function store() {
     ...
    }
    ```
 3. Let's see how this works:
-   
-   - Creating the QR code - we create the QR code from the product description submitted by the user and store it as `product_qr_code.svg` under the `storage` folder.
-     
-     ```php
-     ...
-     
-     $qrCodeData = $this->desc;
-     $qrCodePath = '../storage/product_qr_code.svg';
-     QrCode::format('svg')->size(512)->style('round')->backgroundColor(255, 255, 255, 0)->color(0, 0, 0, 90)->margin(5)->generate($qrCodeData, $qrCodePath);
-     
-     ...
-     ```
-     
-     We won't go to detail about how this package works, but you can reference the QR code package documentation [here](https://www.simplesoftware.io/#/docs/simple-qrcode) for more info on the numerous features it has.
-   - Uploading the QR Code to Cloudinary - a simple upload of the QR code to Cloudinary. We are creating the `public_id` dynamically so we have unique ids for different products that we can reference later.
-   
+
+	- Creating the QR code - we create the QR code from the product description submitted by the user and store it
+	  as `product_qr_code.svg` under the `storage` folder.
+
+	  ```php
+		...
+		
+		$qrCodeData = $this->desc;
+		$qrCodePath = '../storage/product_qr_code.svg';
+		QrCode::format('svg')->size(512)->style('round')->backgroundColor(255, 255, 255, 0)->color(0, 0, 0, 90)->margin(5)->generate($qrCodeData, $qrCodePath);
+		
+		...
+		```
+
+	  We won't go to detail about how this package works, but you can reference the QR code package
+	  documentation [here](https://www.simplesoftware.io/#/docs/simple-qrcode) for more info on the numerous features it
+	  has.
+	- Uploading the QR Code to Cloudinary - a simple upload of the QR code to Cloudinary. We are creating the `public_id`
+	  dynamically so we have unique ids for different products that we can reference later.
+
    ```php
    ...
    
@@ -334,37 +357,40 @@ Add the following code to this file.
    
    ...
    ```
-   
-   - Embed the QR code - we embed the QR code created on the product packaging labels and save the details in our SQLite database:
-     
-     ```php
-     ...
-     
-     $packaged = cloudinary()->upload($this->package->getRealPath(), [
-        			'folder'         => 'product-qrcodes',
-        			'transformation' => [
-        				'overlay' => $this->qrCodeId,
-        				'gravity' => $this->location,
-        				'x'       => 0.02,
-        				'y'       => 0.02,
-        				'crop'    => 'scale',
-        				'flags'   => 'relative',
-        				'width'   => 0.15,
-        				'opacity' => 80
-        			],
-        			])->getSecurePath();
-     
-        			$data['package'] = $packaged;
-     
-        			$this->product = Product::create($data);
-        			$productName = $this->product->name;
-     
-      ...
-     ```
-     
-     The code above uses `overlay`, `gravity` - we get this as an input from the user, `flags` - ensures that the overlay is resized based on the resolution of the underlying layer and lastly the `opacity` transformation.
 
-The code above will be implemented within the `store` method, which will perform validation, create the QR then upload the images to Cloudinary to create the final product label.
+	- Embed the QR code - we embed the QR code created on the product packaging labels and save the details in our SQLite
+	  database:
+
+	  ```php
+		...
+		
+		$packaged = cloudinary()->upload($this->package->getRealPath(), [
+						 'folder'         => 'product-qrcodes',
+						 'transformation' => [
+							 'overlay' => $this->qrCodeId,
+							 'gravity' => $this->location,
+							 'x'       => 0.02,
+							 'y'       => 0.02,
+							 'crop'    => 'scale',
+							 'flags'   => 'relative',
+							 'width'   => 0.15,
+							 'opacity' => 80
+						 ],
+						 ])->getSecurePath();
+		
+						 $data['package'] = $packaged;
+		
+						 $this->product = Product::create($data);
+						 $productName = $this->product->name;
+		
+		 ...
+		```
+
+	  The code above uses `overlay`, `gravity` - we get this as an input from the user, `flags` - ensures that the overlay
+	  is resized based on the resolution of the underlying layer and lastly the `opacity` transformation.
+
+The code above will be implemented within the `store` method, which will perform validation, create the QR then upload
+the images to Cloudinary to create the final product label.
 
 On successful implementation, you should be able to see the following when you navigate to `http://localhost:8000`:
 
@@ -378,13 +404,28 @@ When you scan this code with your phone it will provide you with detailed produc
 
 ![Cloudinary QR Code Scan](https://res.cloudinary.com/dgrpkngjn/image/upload/v1656851696/product-qrcodes/assets/cloudinary_qrcode_scan_jzgdsc.jpg)
 
+## PHPSandbox Demo
+
+The final project can be viewed in the PHPSandbox embed below, if this does not work you can
+click [here](https://phpsandbox.io/e/x/necqe?&layout=EditorPreview&iframeId=4tcq9xpty2&theme=dark&defaultPath=/&showExplorer=no)
+to access the project sandbox directly.
+
+<figure style="height: 500px;">
+	<iframe src="https://phpsandbox.io/e/x/necqe?&layout=EditorPreview&iframeId=4tcq9xpty2&theme=dark&defaultPath=/&showExplorer=no" style="display: block" loading="lazy" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" height="100%" width="100%">
+	</iframe>
+</figure>
+
 ## Conclusion
 
-A QR code is a type of the matrix barcode invented in 1994 by the Japanese automotive company Denso Wave. A barcode is a machine-readable optical label that can contain information about the item to which it is attached.
+A QR code is a type of the matrix barcode invented in 1994 by the Japanese automotive company Denso Wave. A barcode is a
+machine-readable optical label that can contain information about the item to which it is attached.
 
-There are multiple use cases for QR codes, but the most vital use has been in manufacturing and in retail where QR code labels are used to provide detailed information on shipping and retail products as well. 
+There are multiple use cases for QR codes, but the most vital use has been in manufacturing and in retail where QR code
+labels are used to provide detailed information on shipping and retail products as well.
 
-Using Cloudinary we have been able to create product packaging labels that are engaging, providing shoppers with more details about their purchases. Check out Cloudinary for your A to Z media management - upload, storage, administration, manipulation, optimization and delivery.
+Using Cloudinary we have been able to create product packaging labels that are engaging, providing shoppers with more
+details about their purchases. Check out Cloudinary for your A to Z media management - upload, storage, administration,
+manipulation, optimization and delivery.
 
 [Get started](https://cloudinary.com/signup) with Cloudinary in your Laravel projects for FREE!
 
